@@ -5,8 +5,9 @@ class CustomCard extends StatelessWidget {
   const CustomCard({
     super.key,
     required this.height,
-    this.bigBodrer = 3,
-    this.smallBodrer = 8,
+    this.width = double.infinity,
+    this.bigBodrer = 8,
+    this.smallBodrer = 3,
     required this.bgColor,
     this.topBorder = true,
     this.leftBorder = true,
@@ -14,6 +15,7 @@ class CustomCard extends StatelessWidget {
     required this.containerBody,
   });
   final double height;
+  final double width;
   final double bigBodrer;
   final double smallBodrer;
   final Color bgColor;
@@ -25,7 +27,7 @@ class CustomCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: double.infinity,
+      width: width,
       height: height,
       margin: margin ? EdgeInsets.all(16) : null,
       padding: EdgeInsets.all(16),
