@@ -7,14 +7,16 @@ class CustomTagRow extends StatelessWidget {
     super.key,
     required this.label,
     this.icon,
-    this.isActive = false,
+    this.isActive = true,
     this.onTap,
+    this.color,
   });
 
   final String label;
   final Icon? icon;
   final bool isActive;
   final VoidCallback? onTap;
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {
@@ -25,9 +27,10 @@ class CustomTagRow extends StatelessWidget {
         curve: Curves.easeInOut,
         padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 12),
         decoration: BoxDecoration(
-          color: isActive
-              ? AppColors.seconderyColor
-              : AppColors.backGroundColor,
+          color: color ??
+              (isActive
+                  ? AppColors.secondaryColor[300]
+                  : AppColors.backGroundColor),
           borderRadius: BorderRadius.circular(40),
           border: Border.all(color: AppColors.neutralColor, width: 2),
           boxShadow: const [

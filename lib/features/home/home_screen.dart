@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sofra/core/utils/colors.dart';
 import 'package:sofra/core/utils/fonts.dart';
 import 'package:sofra/features/home/widget/filter_row.dart';
+import 'package:sofra/features/home/widget/popular_item_card.dart';
 import 'package:sofra/features/home/widget/search_input.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -15,7 +16,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.teritaryColor,
+      backgroundColor: AppColors.tertiaryColor[500],
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
@@ -24,6 +25,8 @@ class _HomeScreenState extends State<HomeScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SearchInput(),
+                SizedBox(height: 48),
+                PopularItemCard(),
                 SizedBox(height: 48),
                 FilterRow(),
                 SizedBox(height: 48),
