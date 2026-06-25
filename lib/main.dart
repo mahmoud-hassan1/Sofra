@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sofra/core/utils/assets.dart';
 import 'package:sofra/core/utils/colors.dart';
 import 'package:sofra/core/widgets/custom_text_form_field.dart';
+import 'package:sofra/features/home/home_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -16,7 +17,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       theme: ThemeData(scaffoldBackgroundColor: AppColors.backGroundColor),
       debugShowCheckedModeBanner: false,
-      home: const Test(),
+      home: const HomeScreen(),
     );
   }
 }
