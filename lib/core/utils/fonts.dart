@@ -14,11 +14,16 @@ class AppFonts {
     fontWeight: FontWeight.w700,
     color: AppColors.primaryFontColor,
   );
-  static TextStyle bodyMedium = TextStyle(
+  static TextStyle get bodyMedium => const TextStyle(
     fontFamily: AppFonts.hankenGrotesk,
-    fontSize: 16,
-    height: 24,
-    fontWeight: FontWeight.w400,
+    fontSize: 14,
+    fontWeight: FontWeight.w500,
     color: AppColors.primaryFontColor,
+  );
+
+  static TextStyle get header => const TextStyle(
+    fontFamily: AppFonts.bricolageGrotesque ,
+    fontSize: 32 ,
+    fontWeight: FontWeight.w700  
   );
 }
