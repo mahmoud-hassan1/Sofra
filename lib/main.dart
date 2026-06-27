@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sofra/core/utils/colors.dart';
 import 'package:sofra/features/home/cubit/home_navigation_cubit.dart';
+import 'package:sofra/features/auth/presentation/screens/login_screen.dart';
 import 'package:sofra/features/home/home_layout.dart';
 
 void main() {
