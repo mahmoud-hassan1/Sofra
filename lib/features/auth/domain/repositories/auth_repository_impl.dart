@@ -13,7 +13,7 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<UserModel> login({required String email, required String password}) async {
     try {
-      return await remoteDataSource.login(email: email,Password: password);
+      return await remoteDataSource.login(email: email,password: password);
     } on DioException catch (e) {
       final message = e.response?.data['message'] ?? e.message ?? ' Unknown error occurred';
       throw Exception(message);
