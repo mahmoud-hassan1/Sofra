@@ -10,6 +10,8 @@ class Assets {
   static const String dollarIcon = 'assets/icons/dollar-02.svg';
   static const String facebookIcon = 'assets/icons/facebook-02.svg';
   static const String favouriteIcon = 'assets/icons/favourite.svg';
+  static const String favouriteFilledIcon =
+      'assets/icons/favourite_filled.svg';
   static const String googleIcon = 'assets/icons/google.svg';
   static const String homeIcon = 'assets/icons/home-03.svg';
   static const String instagramIcon = 'assets/icons/instagram.svg';
