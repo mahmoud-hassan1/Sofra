@@ -6,8 +6,9 @@ class CustomCard extends StatelessWidget {
     super.key,
     required this.height,
     this.width = double.infinity,
-    this.bigBodrer =  2,
+    this.bigBodrer = 2,
     this.smallBodrer = 2,
+    this.shadow = 8,
     required this.bgColor,
     this.topBorder = true,
     this.leftBorder = true,
@@ -18,6 +19,7 @@ class CustomCard extends StatelessWidget {
   final double width;
   final double bigBodrer;
   final double smallBodrer;
+  final double shadow;
   final Color bgColor;
   final bool topBorder;
   final bool leftBorder;
@@ -47,7 +49,7 @@ class CustomCard extends StatelessWidget {
         boxShadow: [
           BoxShadow(
             color: AppColors.neutralColor,
-            offset: Offset(8, 8),
+            offset: Offset(shadow, shadow),
             blurRadius: 0,
           ),
         ],

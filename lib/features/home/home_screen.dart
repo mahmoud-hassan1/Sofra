@@ -6,8 +6,8 @@ import 'package:sofra/features/home/widget/home_card.dart';
 import 'package:sofra/features/home/widget/popular_item_card.dart';
 import 'package:sofra/features/home/widget/search_input.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+class HomeScreenBody extends StatelessWidget {
+  const HomeScreenBody({super.key});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
