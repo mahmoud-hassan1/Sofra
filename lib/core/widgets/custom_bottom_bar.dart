@@ -3,7 +3,14 @@ import 'package:sofra/core/utils/colors.dart';
 import 'package:sofra/core/widgets/custom_card.dart';
 
 class CustomBottomBar extends StatelessWidget {
-  const CustomBottomBar({super.key});
+  final int currentIndex;
+  final Function(int) onTap;
+
+  const CustomBottomBar({
+    super.key,
+    required this.currentIndex,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -18,29 +25,58 @@ class CustomBottomBar extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            _bottomBarItem(
+            _buildBottomBarItemButton(
+              index: 0,
               icon: Icons.home_rounded,
               text: "Home",
-              isActive: true,
+              isActive: currentIndex == 0,
+              onTap: onTap,
             ),
-            _bottomBarItem(icon: Icons.add, text: "Add", isActive: false),
-            _bottomBarItem(
+            _buildBottomBarItemButton(
+              index: 1,
+              icon: Icons.add,
+              text: "Add",
+              isActive: currentIndex == 1,
+              onTap: onTap,
+            ),
+            _buildBottomBarItemButton(
+              index: 2,
               icon: Icons.favorite_border,
               text: "Saved",
-              isActive: false,
+              isActive: currentIndex == 2,
+              onTap: onTap,
             ),
-            _bottomBarItem(
+            _buildBottomBarItemButton(
+              index: 3,
               icon: Icons.check_box_outlined,
               text: "Posts",
-              isActive: false,
+              isActive: currentIndex == 3,
+              onTap: onTap,
             ),
-            _bottomBarItem(
+            _buildBottomBarItemButton(
+              index: 4,
               icon: Icons.person_outline,
               text: "Profile",
-              isActive: false,
+              isActive: currentIndex == 4,
+              onTap: onTap,
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildBottomBarItemButton({
+    required int index,
+    required IconData icon,
+    required String text,
+    required bool isActive,
+    required Function(int) onTap,
+  }) {
+    return Expanded(
+      child: GestureDetector(
+        onTap: () => onTap(index),
+        child: _bottomBarItem(icon: icon, text: text, isActive: isActive),
       ),
     );
   }
@@ -53,6 +89,7 @@ class CustomBottomBar extends StatelessWidget {
     if (isActive) {
       return CustomCard(
         height: 100,
+        shadow: 3,
         width: 70,
         leftBorder: false,
         topBorder: false,
@@ -75,18 +112,16 @@ class CustomBottomBar extends StatelessWidget {
       );
     }
 
-    return Expanded(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(icon, color: AppColors.neutralColor, size: 22),
-          const SizedBox(height: 2),
-          Text(
-            text,
-            style: const TextStyle(color: AppColors.neutralColor, fontSize: 11),
-          ),
-        ],
-      ),
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Icon(icon, color: AppColors.neutralColor, size: 22),
+        const SizedBox(height: 2),
+        Text(
+          text,
+          style: const TextStyle(color: AppColors.neutralColor, fontSize: 11),
+        ),
+      ],
     );
   }
 }
