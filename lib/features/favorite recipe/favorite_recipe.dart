@@ -18,19 +18,19 @@ class FavoriteRecipeBody extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.symmetric(
               vertical: 24.0,
-              horizontal: 16.0,
+              horizontal: 24.0,
             ),
             child: Column(
               children: [
                 HeaderText(),
-                SizedBox(height: 16),
+                SizedBox(height: 7.5),
                 SecondaryText(),
                 SizedBox(height: 16),
                 ListView.separated(
                   physics: NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
                   itemBuilder: (context, index) => CustomFavoriteCard(),
-                  separatorBuilder: (context, index) => SizedBox(height: 24),
+                  separatorBuilder: (context, index) => SizedBox(height: 27),
                   itemCount: 3,
                 ),
               ],

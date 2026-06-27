@@ -1,14 +1,10 @@
 import 'dart:math' as math;
-
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:sofra/core/utils/colors.dart';
 import 'package:sofra/core/utils/fonts.dart';
 
 class HeaderText extends StatelessWidget {
-  const HeaderText({
-    super.key,
-  });
+  const HeaderText({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +14,7 @@ class HeaderText extends StatelessWidget {
         Expanded(
           child: Text(
             "SAVED MUNCHIES",
-            style: AppFonts.header.copyWith(fontSize: 40),
+            style: AppFonts.header.copyWith(fontSize: 38),
           ),
         ),
         Transform.translate(

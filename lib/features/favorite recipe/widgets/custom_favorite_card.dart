@@ -10,15 +10,13 @@ class CustomFavoriteCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final height = MediaQuery.sizeOf(context).height;
-    final width = MediaQuery.sizeOf(context).width;
     return CustomCard(
-      height: height * .536,
-      width: width * .9,
+      height: 470,
+      width: 355,
       bgColor: AppColors.primaryColor.shade100,
       containerBody: Column(
         children: [
-          RecipeImage(height: height, width: width),
+          RecipeImage(),
           SizedBox(height: 16),
           Align(
             alignment: AlignmentGeometry.centerLeft,
@@ -65,5 +63,3 @@ class CustomFavoriteCard extends StatelessWidget {
     );
   }
 }
-
-
