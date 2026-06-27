@@ -28,7 +28,11 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
     if (response.statusCode == 200 || response.statusCode == 201) {
       final data = response.data['data'];
-      return UserModel.fromJson(data['user'], token: data['token']);
+      final token = data['token'] as String?;
+      if (token != null && token.isNotEmpty) {
+        apiService.setToken(token);
+      }
+      return UserModel.fromJson(data['user'], token: token);
     } else {
       String errorMessage = 'Login failed. Please try again.';
       if (response.data is Map) {
@@ -51,7 +55,11 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
     if (response.statusCode == 200 || response.statusCode == 201) {
       final data = response.data['data'];
-      return UserModel.fromJson(data['user'], token: data['token']);
+      final token = data['token'] as String?;
+      if (token != null && token.isNotEmpty) {
+        apiService.setToken(token);
+      }
+      return UserModel.fromJson(data['user'], token: token);
     } else {
       String errorMessage = 'Signup failed. Please try again.';
       if (response.data is Map) {

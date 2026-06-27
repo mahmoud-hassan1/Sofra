@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sofra/core/network/api_service.dart';
+import 'package:sofra/core/services/service_locator.dart';
 import 'package:sofra/core/utils/colors.dart';
 import 'package:sofra/core/utils/fonts.dart';
 import 'package:sofra/core/widgets/neo_button.dart';
@@ -20,7 +21,7 @@ class HomeScreenBody extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) {
-        final apiService = ApiService();
+        final apiService = sl<ApiService>();
         final repository = RecipeRepositoryImpl(apiService: apiService);
         final getRecipesUseCase = GetRecipesUseCase(repository);
         final toggleSaveRecipeUseCase = ToggleSaveRecipeUseCase(repository);
