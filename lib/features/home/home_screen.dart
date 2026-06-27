@@ -6,14 +6,14 @@ import 'package:sofra/features/home/widget/home_card.dart';
 import 'package:sofra/features/home/widget/popular_item_card.dart';
 import 'package:sofra/features/home/widget/search_input.dart';
 
-class HomeScreenBody extends StatelessWidget {
+class HomeScreenBody extends StatefulWidget {
   const HomeScreenBody({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<HomeScreenBody> createState() => _HomeScreenBodyState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenBodyState extends State<HomeScreenBody> {
   final List<Map<String, dynamic>> dummyData = [
     {
       'title': 'Cheese Burger',
@@ -46,9 +46,7 @@ class _HomeScreenState extends State<HomeScreen> {
   ];
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.tertiaryColor[500],
-      body: SafeArea(
+    return  SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
           child: CustomScrollView(
@@ -88,7 +86,6 @@ class _HomeScreenState extends State<HomeScreen> {
             ],
           ),
         ),
-      ),
-    );
+      );
   }
 }
