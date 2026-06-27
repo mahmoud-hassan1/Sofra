@@ -13,7 +13,7 @@ class CustomTagRow extends StatelessWidget {
   });
 
   final String label;
-  final Icon? icon;
+  final Widget? icon;
   final bool isActive;
   final VoidCallback? onTap;
   final Color? color;
