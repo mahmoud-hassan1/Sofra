@@ -20,4 +20,9 @@ class Assets {
   static const String thumbsUpIcon = 'assets/icons/thumbs-up.svg';
   static const String userIcon = 'assets/icons/user-02.svg';
   static const String viewIcon = 'assets/icons/view.svg';
+  static const String noodleIcon = 'assets/icons/noodle.svg';
+  static const String uploadImgIcon = 'assets/icons/upload.svg';
+  static const String facebook2 = "assets/icons/facebook-02 (1).s vg";
+  static const String google2 = "assets/icons/google2.svg";
+  static const String loginIcon = "assets/icons/login.svg";
 }

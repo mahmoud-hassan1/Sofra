@@ -61,6 +61,7 @@ class CustomTextFormField extends StatelessWidget {
             hintText: hintText,
             hintStyle: AppFonts.bodyMedium.copyWith(
               height: 1.0,
+              fontSize: 18,
               color: AppColors.seconderyFontColor,
             ),
             prefixIcon: prefixIcon,
