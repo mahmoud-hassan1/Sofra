@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         theme: ThemeData(scaffoldBackgroundColor: AppColors.backGroundColor),
         debugShowCheckedModeBanner: false,
-        home: const HomeLayout(),
+        home: const LoginScreen(),
       ),
     );
   }
