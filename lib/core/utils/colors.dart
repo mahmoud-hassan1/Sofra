@@ -53,4 +53,5 @@ class AppColors {
   static const Color primaryFontColor = Color(0XFF1E1B19);
   static const Color seconderyFontColor = Color(0XFF50443F);
   static const Color errorColor = Color(0xFFFF3B30);
+  static const Color pinkAccentColor = Color(0xFFFFCDE2);
 }
