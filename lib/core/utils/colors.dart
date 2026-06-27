@@ -44,6 +44,19 @@ class AppColors {
         800: Color(0xFF577962),
         900: Color(0xFF3C5444),
       });
+  static const MaterialColor seconderyFontColor =
+      MaterialColor(0xFF50443F, <int, Color>{
+        50: Color(0xFFF2F1F0),
+        100: Color(0xFFE3E0DE),
+        200: Color(0xFFC7C1BE),
+        300: Color(0xFFABA29D),
+        400: Color(0xFF8F837C),
+        500: Color(0xFF50443F),
+        600: Color(0xFF433935),
+        700: Color(0xFF362E2A),
+        800: Color(0xFF29221F),
+        900: Color(0xFF1C1715),
+      });
   // static const Color primaryColor = Color(0XFFA11518);
   static const Color backGroundColor = Color(0xFFFDF8F1);
   static const Color backGroundSecondColor = Color(0XFFF4ECE6);
@@ -51,7 +64,7 @@ class AppColors {
   // static const Color teritaryColor = Color(0XFFA7E8BD);
   static const Color neutralColor = Color(0XFF000000);
   static const Color primaryFontColor = Color(0XFF1E1B19);
-  static const Color seconderyFontColor = Color(0XFF50443F);
+  //static const Color seconderyFontColor = Color(0XFF50443F);
   static const Color errorColor = Color(0xFFFF3B30);
   static const Color pinkAccentColor = Color(0xFFFFCDE2);
 }
