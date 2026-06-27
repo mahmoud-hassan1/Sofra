@@ -7,38 +7,69 @@ import 'package:sofra/core/widgets/custom_card.dart';
 import 'package:sofra/core/widgets/custom_tag_row.dart';
 import 'package:sofra/core/widgets/neo_toggle_button.dart';
 
-class HomeCard extends StatefulWidget {
+class HomeCard extends StatelessWidget {
   const HomeCard({
     super.key,
     required this.bgColor,
     required this.title,
+    required this.isSaved,
     this.likesCount = 400,
     this.category = 'Fast Food',
     this.deliveryTime = '10m',
     this.tags = const ['italian', 'dinner'],
     this.imagePath = 'assets/images/img1.png',
+    this.onFavoriteTap,
   });
 
   final Color bgColor;
   final String title;
+  final bool isSaved;
   final int likesCount;
   final String category;
   final String deliveryTime;
   final List<String> tags;
   final String imagePath;
+  final VoidCallback? onFavoriteTap;
 
-  @override
-  State<HomeCard> createState() => _HomeCardState();
-}
+  Widget _buildRecipeImage() {
+    if (imagePath.isEmpty) {
+      return Image.asset(
+        'assets/images/ErrorImg.png',
+        height: 125,
+        fit: BoxFit.contain,
+      );
+    }
 
-class _HomeCardState extends State<HomeCard> {
-  bool isFavorite = false;
+    if (imagePath.startsWith('http')) {
+      return Image.network(
+        imagePath,
+        height: 125,
+        fit: BoxFit.contain,
+        errorBuilder: (context, error, stackTrace) => Image.asset(
+          'assets/images/ErrorImg.png',
+          height: 125,
+          fit: BoxFit.contain,
+        ),
+      );
+    }
+
+    return Image.asset(
+      imagePath,
+      height: 125,
+      fit: BoxFit.contain,
+      errorBuilder: (context, error, stackTrace) => Image.asset(
+        'assets/images/ErrorImg.png',
+        height: 125,
+        fit: BoxFit.contain,
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return CustomCard(
       height: 300,
-      bgColor: widget.bgColor,
+      bgColor: bgColor,
       containerBody: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -46,25 +77,17 @@ class _HomeCardState extends State<HomeCard> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Image.asset(
-                widget.imagePath,
-                height: 125,
-                fit: BoxFit.contain,
-              ),
+              _buildRecipeImage(),
               Column(
                 children: [
                   NeoToggleButton(
                     svgPath: Assets.favouriteIcon,
-                    isActive: isFavorite,
+                    isActive: isSaved,
                     activeBgColor: AppColors.backGroundSecondColor,
                     inactiveBgColor: AppColors.primaryColor[500]!,
                     activeIconColor: AppColors.primaryColor[500]!,
                     inactiveIconColor: AppColors.backGroundSecondColor,
-                    onTap: () {
-                      setState(() {
-                        isFavorite = !isFavorite;
-                      });
-                    },
+                    onTap: onFavoriteTap ?? () {},
                   ),
                   const SizedBox(height: 12),
                   NeoToggleButton(
@@ -82,11 +105,10 @@ class _HomeCardState extends State<HomeCard> {
           ),
           const SizedBox(height: 8),
           Text(
-            widget.title,
+            title,
             style: AppFonts.label.copyWith(
               fontSize: 24,
               fontWeight: FontWeight.w800,
-              
             ),
           ),
           const SizedBox(height: 6),
@@ -103,7 +125,7 @@ class _HomeCardState extends State<HomeCard> {
                   ),
                   const SizedBox(width: 8),
                   Text(
-                    '${widget.likesCount}',
+                    '$likesCount',
                     style: AppFonts.bodyMedium.copyWith(
                       fontWeight: FontWeight.w700,
                       fontSize: 16,
@@ -112,7 +134,7 @@ class _HomeCardState extends State<HomeCard> {
                 ],
               ),
               Text(
-                widget.category,
+                category,
                 style: AppFonts.header.copyWith(
                   fontSize: 24,
                   color: AppColors.primaryColor[500],
@@ -125,7 +147,7 @@ class _HomeCardState extends State<HomeCard> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               CustomTagRow(
-                label: widget.deliveryTime,
+                label: deliveryTime,
                 isActive: false,
                 icon: SvgPicture.asset(
                   Assets.clockIcon,
@@ -133,9 +155,9 @@ class _HomeCardState extends State<HomeCard> {
                   height: 18,
                 ),
               ),
-              if (widget.tags.isNotEmpty)
+              if (tags.isNotEmpty)
                 CustomTagRow(
-                  label: widget.tags[0],
+                  label: tags[0],
                   isActive: false,
                   icon: SvgPicture.asset(
                     Assets.dish01Icon,
@@ -143,9 +165,9 @@ class _HomeCardState extends State<HomeCard> {
                     height: 18,
                   ),
                 ),
-              if (widget.tags.length > 1)
+              if (tags.length > 1)
                 CustomTagRow(
-                  label: widget.tags[1],
+                  label: tags[1],
                   isActive: false,
                 ),
             ],

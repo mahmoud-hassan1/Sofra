@@ -1,91 +1,170 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sofra/core/network/api_service.dart';
 import 'package:sofra/core/utils/colors.dart';
 import 'package:sofra/core/utils/fonts.dart';
+import 'package:sofra/core/widgets/neo_button.dart';
+import 'package:sofra/data/repositories/recipe_repository_impl.dart';
+import 'package:sofra/domain/usecases/get_recipes_usecase.dart';
+import 'package:sofra/domain/usecases/toggle_save_recipe_usecase.dart';
+import 'package:sofra/features/home/cubit/home_body_cubit.dart';
 import 'package:sofra/features/home/widget/filter_row.dart';
 import 'package:sofra/features/home/widget/home_card.dart';
 import 'package:sofra/features/home/widget/popular_item_card.dart';
 import 'package:sofra/features/home/widget/search_input.dart';
 
-class HomeScreenBody extends StatefulWidget {
+class HomeScreenBody extends StatelessWidget {
   const HomeScreenBody({super.key});
 
   @override
-  State<HomeScreenBody> createState() => _HomeScreenBodyState();
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) {
+        final apiService = ApiService();
+        final repository = RecipeRepositoryImpl(apiService: apiService);
+        final getRecipesUseCase = GetRecipesUseCase(repository);
+        final toggleSaveRecipeUseCase = ToggleSaveRecipeUseCase(repository);
+        return HomeBodyCubit(
+          getRecipesUseCase: getRecipesUseCase,
+          toggleSaveRecipeUseCase: toggleSaveRecipeUseCase,
+        )..loadRecipes();
+      },
+      child: const HomeScreenBodyContent(),
+    );
+  }
 }
 
-class _HomeScreenBodyState extends State<HomeScreenBody> {
-  final List<Map<String, dynamic>> dummyData = [
-    {
-      'title': 'Cheese Burger',
-      'bgColor': AppColors.secondaryColor[200]!,
-      'category': 'Fast Food',
-      'deliveryTime': '10m',
-      'tags': ['italian', 'dinner'],
-    },
-    {
-      'title': 'Spicy Tacos',
-      'bgColor': AppColors.pinkAccentColor,
-      'category': 'Mexican',
-      'deliveryTime': '15m',
-      'tags': ['mexican', 'lunch'],
-    },
-    {
-      'title': 'Pasta Bolognese',
-      'bgColor': AppColors.secondaryColor[200]!,
-      'category': 'Italian',
-      'deliveryTime': '25m',
-      'tags': ['italian', 'dinner'],
-    },
-    {
-      'title': 'Sushi Platter',
-      'bgColor': AppColors.pinkAccentColor,
-      'category': 'Japanese',
-      'deliveryTime': '30m',
-      'tags': ['sushi', 'dinner'],
-    },
-  ];
+class HomeScreenBodyContent extends StatelessWidget {
+  const HomeScreenBodyContent({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return  SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
-          child: CustomScrollView(
-            clipBehavior: Clip.none,
-            slivers: [
-              SliverToBoxAdapter(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SearchInput(),
-                    const SizedBox(height: 32),
-                    PopularItemCard(),
-                    const SizedBox(height: 32),
-                    FilterRow(),
-                    const SizedBox(height: 32),
-                    Text("Nearby Craves", style: AppFonts.header),
-                    const SizedBox(height: 32),
-                  ],
+    return SafeArea(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
+        child: BlocBuilder<HomeBodyCubit, HomeBodyState>(
+          builder: (context, state) {
+            return CustomScrollView(
+              clipBehavior: Clip.none,
+              slivers: [
+                SliverToBoxAdapter(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SearchInput(),
+                      const SizedBox(height: 32),
+                      const PopularItemCard(),
+                      const SizedBox(height: 32),
+                      const FilterRow(),
+                      const SizedBox(height: 32),
+                      Text("Nearby Craves", style: AppFonts.header),
+                      const SizedBox(height: 32),
+                    ],
+                  ),
                 ),
-              ),
-              SliverList.builder(
-                itemCount: dummyData.length,
-                itemBuilder: (context, index) {
-                  final item = dummyData[index];
-                  return Padding(
-                    padding: const EdgeInsets.only(bottom: 24),
-                    child: HomeCard(
-                      bgColor: item['bgColor'],
-                      title: item['title'],
-                      category: item['category'],
-                      deliveryTime: item['deliveryTime'],
-                      tags: item['tags'],
+                if (state.status == HomeBodyStatus.loading)
+                  SliverFillRemaining(
+                    hasScrollBody: false,
+                    child: Center(
+                      child: CircularProgressIndicator(
+                        color: AppColors.primaryColor[500],
+                      ),
                     ),
-                  );
-                },
-              ),
-            ],
-          ),
+                  )
+                else if (state.status == HomeBodyStatus.failure)
+                  SliverFillRemaining(
+                    hasScrollBody: false,
+                    child: Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.asset(
+                            'assets/images/Empty.png',
+                            height: 220,
+                            fit: BoxFit.contain,
+                          ),
+                          const SizedBox(height: 16),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 24),
+                            child: Text(
+                              'Failed to load recipes: TRY AGAIN ',
+                              style: AppFonts.bodyMedium.copyWith(
+                                color: AppColors.errorColor,
+                                fontWeight: FontWeight.w700,
+                                fontSize: 20,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                          const SizedBox(height: 24),
+                          NeoButton(
+                            text: 'Try Again',
+                            onTap: () {
+                              context.read<HomeBodyCubit>().loadRecipes();
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                  )
+                else if (state.recipes.isEmpty)
+                  SliverFillRemaining(
+                    hasScrollBody: false,
+                    child: Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.asset(
+                            'assets/images/Empty.png',
+                            height: 220,
+                            fit: BoxFit.contain,
+                          ),
+                          const SizedBox(height: 16),
+                          Text(
+                            'No recipes found.',
+                            style: AppFonts.bodyMedium.copyWith(
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                          const SizedBox(height: 24),
+                          NeoButton(
+                            text: 'Clear Filters & Search',
+                            onTap: () {
+                              context.read<HomeBodyCubit>().clearFilters();
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                  )
+                else
+                  SliverList.builder(
+                    itemCount: state.recipes.length,
+                    itemBuilder: (context, index) {
+                      final recipe = state.recipes[index];
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: 24),
+                        child: HomeCard(
+                          bgColor: recipe.bgColor,
+                          title: recipe.title,
+                          isSaved: recipe.isSaved,
+                          likesCount: recipe.likeCount,
+                          category: recipe.category,
+                          deliveryTime: recipe.deliveryTime,
+                          tags: recipe.tags,
+                          imagePath: recipe.imageUrl,
+                          onFavoriteTap: () {
+                            context.read<HomeBodyCubit>().toggleSaveRecipe(recipe.id);
+                          },
+                        ),
+                      );
+                    },
+                  ),
+              ],
+            );
+          },
         ),
-      );
+      ),
+    );
   }
 }
