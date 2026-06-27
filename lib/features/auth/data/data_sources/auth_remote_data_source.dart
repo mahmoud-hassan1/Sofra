@@ -1,10 +1,9 @@
-import 'package:dio/dio.dart';
 import 'package:sofra/core/network/api_constants.dart';
 import 'package:sofra/core/network/api_service.dart';
-import 'package:sofra/features/auth/data/models/user_model.dart';
+import '../models/user_model.dart';
 
 abstract class AuthRemoteDataSource {
-  Future<UserModel> login({required String email, required String Password});
+  Future<UserModel> login({required String email, required String password});
   Future<UserModel> signup({
     required String fullName,
     required String email,
@@ -12,43 +11,53 @@ abstract class AuthRemoteDataSource {
   });
 }
 
-class AuthRemoteDataSourceImp implements AuthRemoteDataSource {
+class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   final ApiService apiService;
 
-  AuthRemoteDataSourceImp({required this.apiService});
+  AuthRemoteDataSourceImpl(this.apiService);
+
   @override
-  Future<UserModel> login({
-    required String email,
-    required String Password,
-  }) async {
+  Future<UserModel> login({required String email, required String password}) async {
     final response = await apiService.post(
       endpoint: ApiConstants.login,
-      data: {'email': email, 'password': Password},
+      data: {
+        "email": email,
+        "password": password,
+      },
     );
-    final data = response.data['data'];
-    final token = data['token'];
-    final userJson = data['user'];
-    return UserModel.fromJson(userJson, token: token);
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      final data = response.data['data'];
+      return UserModel.fromJson(data['user'], token: data['token']);
+    } else {
+      String errorMessage = 'Login failed. Please try again.';
+      if (response.data is Map) {
+        errorMessage = response.data['message'] ?? response.data['error']?['message'] ?? errorMessage;
+      }
+      throw Exception(errorMessage);
+    }
   }
 
   @override
-  Future<UserModel> signup({
-    required String fullName,
-    required String email,
-    required String password,
-  }) async {
+  Future<UserModel> signup({required String fullName, required String email, required String password}) async {
     final response = await apiService.post(
       endpoint: ApiConstants.signup,
       data: {
-        'fullName': fullName,
-        'email': email,
-        'password': password,
-        'passwordConfirm': password,
+        "fullName": fullName,
+        "email": email,
+        "password": password,
       },
     );
-    final data = response.data['data'];
-    final token = data['token'];
-    final userJson = data['user'];
-    return UserModel.fromJson(userJson, token: token);
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      final data = response.data['data'];
+      return UserModel.fromJson(data['user'], token: data['token']);
+    } else {
+      String errorMessage = 'Signup failed. Please try again.';
+      if (response.data is Map) {
+        errorMessage = response.data['message'] ?? response.data['error']?['message'] ?? errorMessage;
+      }
+      throw Exception(errorMessage);
+    }
   }
 }

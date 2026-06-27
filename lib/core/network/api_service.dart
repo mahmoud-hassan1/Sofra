@@ -11,6 +11,9 @@ class ApiService {
         receiveDataWhenStatusError: true,
         connectTimeout: const Duration(seconds: 10),
         receiveTimeout: const Duration(seconds: 10),
+        validateStatus: (status) {
+          return status != null && status < 500; 
+        },
       ),
     );
 
