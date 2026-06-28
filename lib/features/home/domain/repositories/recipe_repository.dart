@@ -1,4 +1,4 @@
-import 'package:sofra/domain/entities/recipe_entity.dart';
+import 'package:sofra/features/home/domain/entities/recipe_entity.dart';
 
 abstract class RecipeRepository {
   Future<List<RecipeEntity>> getRecipes({String? search, String? region, String? category});

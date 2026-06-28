@@ -5,14 +5,15 @@ import 'package:sofra/core/services/service_locator.dart';
 import 'package:sofra/core/utils/colors.dart';
 import 'package:sofra/core/utils/fonts.dart';
 import 'package:sofra/core/widgets/neo_button.dart';
-import 'package:sofra/data/repositories/recipe_repository_impl.dart';
-import 'package:sofra/domain/usecases/get_recipes_usecase.dart';
-import 'package:sofra/domain/usecases/toggle_save_recipe_usecase.dart';
+import 'package:sofra/features/home/data/repositories/recipe_repository_impl.dart';
+import 'package:sofra/features/home/domain/usecases/get_recipes_usecase.dart';
+import 'package:sofra/features/home/domain/usecases/toggle_save_recipe_usecase.dart';
 import 'package:sofra/features/home/cubit/home_body_cubit.dart';
 import 'package:sofra/features/home/widget/filter_row.dart';
 import 'package:sofra/features/home/widget/home_card.dart';
 import 'package:sofra/features/home/widget/popular_item_card.dart';
 import 'package:sofra/features/home/widget/search_input.dart';
+import 'package:sofra/features/recipe%20details/recipe_details.dart';
 
 class HomeScreenBody extends StatelessWidget {
   const HomeScreenBody({super.key});
@@ -145,18 +146,30 @@ class HomeScreenBodyContent extends StatelessWidget {
                       final recipe = state.recipes[index];
                       return Padding(
                         padding: const EdgeInsets.only(bottom: 24),
-                        child: HomeCard(
-                          bgColor: recipe.bgColor,
-                          title: recipe.title,
-                          isSaved: recipe.isSaved,
-                          likesCount: recipe.likeCount,
-                          category: recipe.category,
-                          deliveryTime: recipe.deliveryTime,
-                          tags: recipe.tags,
-                          imagePath: recipe.imageUrl,
-                          onFavoriteTap: () {
-                            context.read<HomeBodyCubit>().toggleSaveRecipe(recipe.id);
+                        child: InkWell(
+                          onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => RecipeDetails(recipeId: recipe.id),
+                                ),
+                              );
                           },
+                          child: HomeCard(
+                            bgColor: recipe.bgColor,
+                            title: recipe.title,
+                            isSaved: recipe.isSaved,
+                            likesCount: recipe.likeCount,
+                            category: recipe.category,
+                            deliveryTime: recipe.deliveryTime,
+                            tags: recipe.tags,
+                            imagePath: recipe.imageUrl,
+                            onFavoriteTap: () {
+                              context.read<HomeBodyCubit>().toggleSaveRecipe(
+                                recipe.id,
+                              );
+                            },
+                          ),
                         ),
                       );
                     },

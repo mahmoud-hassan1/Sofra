@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sofra/domain/entities/recipe_entity.dart';
-import 'package:sofra/domain/usecases/get_recipes_usecase.dart';
-import 'package:sofra/domain/usecases/toggle_save_recipe_usecase.dart';
+import 'package:sofra/features/home/domain/entities/recipe_entity.dart';
+import 'package:sofra/features/home/domain/usecases/get_recipes_usecase.dart';
+import 'package:sofra/features/home/domain/usecases/toggle_save_recipe_usecase.dart';
 
 enum HomeBodyStatus { initial, loading, success, failure }
 

@@ -1,7 +1,7 @@
 import 'package:sofra/core/network/api_service.dart';
-import 'package:sofra/data/models/recipe_model.dart';
-import 'package:sofra/domain/entities/recipe_entity.dart';
-import 'package:sofra/domain/repositories/recipe_repository.dart';
+import 'package:sofra/features/home/data/models/recipe_model.dart';
+import 'package:sofra/features/home/domain/entities/recipe_entity.dart';
+import 'package:sofra/features/home/domain/repositories/recipe_repository.dart';
 
 class RecipeRepositoryImpl implements RecipeRepository {
   final ApiService apiService;
