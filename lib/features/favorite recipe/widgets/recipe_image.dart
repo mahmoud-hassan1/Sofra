@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:sofra/core/utils/colors.dart';
 
 class RecipeImage extends StatelessWidget {
-  const RecipeImage({super.key});
+  final String imageUrl;
+  const RecipeImage({super.key, required this.imageUrl});
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        Image.asset("assets/images/recipe.png", height: 230, width: 310),
+        Image.network(imageUrl, height: 230, width: 310, fit: BoxFit.cover),
         Positioned(
           top: 12,
           right: 15,

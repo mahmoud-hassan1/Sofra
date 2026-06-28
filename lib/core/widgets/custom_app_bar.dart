@@ -4,6 +4,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final Color backgroundColor;
   final List<Widget>? actions;
   final Widget? leading;
+  final Widget? titleHeader;
   final double leadingWidth;
   final double appBarHeight;
 
@@ -13,6 +14,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.actions,
     this.leading,
     required this.leadingWidth,
+    this.titleHeader,
     required this.appBarHeight,
   });
 
@@ -22,10 +24,11 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      title: titleHeader,
       toolbarHeight: appBarHeight,
       leadingWidth: leadingWidth,
       leading: leading,
-      actions:actions,
+      actions: actions,
       backgroundColor: backgroundColor,
     );
   }

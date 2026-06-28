@@ -1,5 +1,5 @@
 import 'package:sofra/core/utils/colors.dart';
-import 'package:sofra/domain/entities/recipe_entity.dart';
+import 'package:sofra/features/home/domain/entities/recipe_entity.dart';
 
 class RecipeOwnerModel extends RecipeOwnerEntity {
   const RecipeOwnerModel({

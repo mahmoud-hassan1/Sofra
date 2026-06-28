@@ -63,6 +63,16 @@ class ApiService {
     return response.data as Map<String, dynamic>;
   }
 
+  Future<Map<String, dynamic>> getRecipeDetails(String recipeId) async {
+    final response = await _dio.get('recipes/$recipeId');
+    return response.data as Map<String, dynamic>;
+  }
+
+  Future<List<dynamic>> getSavedRecipes() async {
+    final response = await _dio.get('recipes/saved');
+    return response.data['data'] as List<dynamic>;
+  }
+
   Future<Response> post({
     required String endpoint,
     dynamic data,
