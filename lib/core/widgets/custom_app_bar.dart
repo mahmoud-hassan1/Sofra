@@ -1,9 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:sofra/core/utils/colors.dart';
-import 'package:sofra/core/utils/fonts.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const CustomAppBar({super.key});
+  final Color backgroundColor;
+  final List<Widget>? actions;
+  final Widget? leading;
+  final double leadingWidth;
+  final double appBarHeight;
+
+  const CustomAppBar({
+    super.key,
+    required this.backgroundColor,
+    this.actions,
+    this.leading,
+    required this.leadingWidth,
+    required this.appBarHeight,
+  });
 
   @override
   Size get preferredSize => const Size.fromHeight(77);
@@ -11,22 +22,11 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      toolbarHeight: 77,
-      leadingWidth: 200,
-      leading: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-        child: Text(
-          "Sofra",
-          style: AppFonts.header.copyWith(color: AppColors.backGroundColor),
-        ),
-      ),
-      actions: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-          child: Icon(Icons.search, size: 28, color: AppColors.backGroundColor),
-        ),
-      ],
-      backgroundColor: AppColors.seconderyFontColor,
+      toolbarHeight: appBarHeight,
+      leadingWidth: leadingWidth,
+      leading: leading,
+      actions:actions,
+      backgroundColor: backgroundColor,
     );
   }
 }

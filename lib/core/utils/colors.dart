@@ -67,4 +67,8 @@ class AppColors {
   //static const Color seconderyFontColor = Color(0XFF50443F);
   static const Color errorColor = Color(0xFFFF3B30);
   static const Color pinkAccentColor = Color(0xFFFFCDE2);
+  static const Color brownAppBarBackground = Color(0xFF795745);
+  static const Color lightBrownAppBarBackground = Color(0xFFFFD1BA);
+  static const Color darkAppBarTextColor = Color(0xFF7A5846);
+  static const Color greenAvatarBackgroundColor = Color(0xFF49654C);
 }
