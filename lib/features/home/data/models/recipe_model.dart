@@ -1,3 +1,4 @@
+import 'package:sofra/core/network/api_constants.dart';
 import 'package:sofra/core/utils/colors.dart';
 import 'package:sofra/features/home/domain/entities/recipe_entity.dart';
 
@@ -54,6 +55,13 @@ class RecipeModel extends RecipeEntity {
         ? AppColors.secondaryColor[200]! 
         : AppColors.pinkAccentColor;
 
+    var imageUrl = json['imageUrl'] as String? ?? '';
+    if (imageUrl.isNotEmpty && !imageUrl.startsWith('http') && !imageUrl.startsWith('assets/')) {
+      final cleanPath = imageUrl.startsWith('/') ? imageUrl.substring(1) : imageUrl;
+      final serverRoot = ApiConstants.baseUrl.replaceAll('/api/', '');
+      imageUrl = '$serverRoot/$cleanPath';
+    }
+
     return RecipeModel(
       id: json['id'] as String? ?? '',
       title: title,
@@ -62,7 +70,7 @@ class RecipeModel extends RecipeEntity {
       region: region,
       kitchenType: kitchenType,
       cookingTimeMinutes: json['cookingTimeMinutes'] as int? ?? 0,
-      imageUrl: json['imageUrl'] as String? ?? '',
+      imageUrl: imageUrl,
       likeCount: json['likeCount'] as int? ?? 0,
       isSaved: json['isSaved'] as bool? ?? false,
       owner: json['owner'] != null
