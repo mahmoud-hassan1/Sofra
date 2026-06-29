@@ -13,6 +13,10 @@ import 'package:sofra/features/home/domain/repositories/recipe_repository.dart';
 import 'package:sofra/features/home/domain/usecases/get_recipes_usecase.dart';
 import 'package:sofra/features/home/domain/usecases/toggle_save_recipe_usecase.dart';
 import 'package:sofra/features/home/domain/usecases/get_top_liked_recipe_usecase.dart';
+import 'package:sofra/features/home/domain/usecases/create_recipe_usecase.dart';
+
+// Add Recipe
+import 'package:sofra/features/add%20recipe/cubit/add_recipe_cubit.dart';
 
 // Recipe Details
 import 'package:sofra/features/recipe%20details/data/datasources/recipe_details_remote_data_source.dart';
@@ -60,6 +64,10 @@ void initServiceLocator() {
   sl.registerLazySingleton(() => GetRecipesUseCase(sl()));
   sl.registerLazySingleton(() => ToggleSaveRecipeUseCase(sl()));
   sl.registerLazySingleton(() => GetTopLikedRecipeUseCase(sl()));
+  sl.registerLazySingleton(() => CreateRecipeUseCase(sl()));
+
+  // Add Recipe
+  sl.registerFactory(() => AddRecipeCubit(sl()));
 
   // Recipe Details
   sl.registerFactory(() => RecipeDetailsCubit(getRecipeDetailsUseCase: sl()));

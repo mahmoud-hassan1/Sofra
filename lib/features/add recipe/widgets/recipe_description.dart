@@ -1,39 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sofra/core/utils/colors.dart';
 import 'package:sofra/core/utils/fonts.dart';
 import 'package:sofra/core/widgets/custom_text_form_field.dart';
 import 'package:sofra/core/widgets/custom_textarea.dart';
+import 'package:sofra/features/add%20recipe/cubit/add_recipe_cubit.dart';
+import 'package:sofra/features/add%20recipe/cubit/add_recipe_state.dart';
 import 'package:sofra/features/add%20recipe/widgets/add_floating_button.dart';
 import 'package:sofra/features/add%20recipe/widgets/decorated_container.dart';
 
-class RecipeDescription extends StatefulWidget {
+class RecipeDescription extends StatelessWidget {
   const RecipeDescription({super.key});
 
   @override
-  _RecipeDescriptionState createState() => _RecipeDescriptionState();
-}
-
-class _RecipeDescriptionState extends State<RecipeDescription> {
-  final List<TextEditingController> stepControllers = [
-    TextEditingController(text: "Open bag."),
-    TextEditingController(),
-  ];
-  void _addNewStepField() {
-    setState(() {
-      stepControllers.add(TextEditingController());
-    });
-  }
-
-  void _saveDataToDatabase() {
-    List<String> stepsToSave = stepControllers
-        .map((controller) => controller.text.trim())
-        .where((text) => text.isNotEmpty) // Filter out accidental empty entries
-        .toList();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    final ingredients = TextEditingController();
+    final cubit = context.read<AddRecipeCubit>();
     return DecoratedContainer(
       width: 354,
       backgroundColor: AppColors.secondaryColor[200]!,
@@ -67,7 +48,7 @@ class _RecipeDescriptionState extends State<RecipeDescription> {
             const SizedBox(height: 16),
             CustomTextArea(
               hintText: "e.g: 1/2 cup of flour",
-              controller: ingredients,
+              controller: cubit.ingredientsController,
               maxLines: 4,
               minLines: 3,
             ),
@@ -93,18 +74,22 @@ class _RecipeDescriptionState extends State<RecipeDescription> {
             ),
             Align(
               alignment: Alignment.centerRight,
-              child: AddFloatingButton(onTap: _addNewStepField),
+              child: AddFloatingButton(onTap: cubit.addStepField),
             ),
             const SizedBox(height: 8),
-            ListView.separated(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: stepControllers.length,
-              separatorBuilder: (context, index) => const SizedBox(height: 12),
-              itemBuilder: (context, index) {
-                return CustomTextFormField(
-                  controller: stepControllers[index],
-                  hintText: '${index + 1}. Type step instructions...',
+            BlocBuilder<AddRecipeCubit, AddRecipeState>(
+              builder: (context, state) {
+                return ListView.separated(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: cubit.stepControllers.length,
+                  separatorBuilder: (context, index) => const SizedBox(height: 12),
+                  itemBuilder: (context, index) {
+                    return CustomTextFormField(
+                      controller: cubit.stepControllers[index],
+                      hintText: '${index + 1}. Type step instructions...',
+                    );
+                  },
                 );
               },
             ),
@@ -114,3 +99,4 @@ class _RecipeDescriptionState extends State<RecipeDescription> {
     );
   }
 }
+

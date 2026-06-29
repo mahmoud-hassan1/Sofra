@@ -53,6 +53,7 @@ class HomeBodyCubit extends Cubit<HomeBodyState> {
         search: state.searchQuery,
         region: state.selectedRegion,
       );
+      if (isClosed) return;
       emit(
         state.copyWith(
           status: HomeBodyStatus.success,
@@ -61,6 +62,7 @@ class HomeBodyCubit extends Cubit<HomeBodyState> {
         ),
       );
     } catch (e) {
+      if (isClosed) return;
       emit(
         state.copyWith(
           status: HomeBodyStatus.failure,
@@ -102,6 +104,7 @@ class HomeBodyCubit extends Cubit<HomeBodyState> {
 
     try {
       final backendSaved = await toggleSaveRecipeUseCase(recipeId);
+      if (isClosed) return;
       if (backendSaved != newIsSaved) {
         final latestRecipes = List<RecipeEntity>.from(state.recipes);
         final latestIndex = latestRecipes.indexWhere((r) => r.id == recipeId);
@@ -115,6 +118,7 @@ class HomeBodyCubit extends Cubit<HomeBodyState> {
         }
       }
     } catch (e) {
+      if (isClosed) return;
       final revertedRecipes = List<RecipeEntity>.from(state.recipes);
       final revertedIndex = revertedRecipes.indexWhere((r) => r.id == recipeId);
       if (revertedIndex != -1) {

@@ -3,8 +3,10 @@ import 'dart:io';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sofra/core/utils/colors.dart';
 import 'package:sofra/core/utils/fonts.dart';
+import 'package:sofra/features/add%20recipe/cubit/add_recipe_cubit.dart';
 import 'package:sofra/features/add%20recipe/widgets/decorated_container.dart';
 
 class Addphoto extends StatefulWidget {
@@ -16,6 +18,7 @@ class Addphoto extends StatefulWidget {
 
 class _AddphotoState extends State<Addphoto> {
   File? _selectedImage;
+  
   Future<void> _pickAndValidateImage() async {
     FilePickerResult? result = await FilePicker.pickFiles(
       type: FileType.custom,
@@ -24,9 +27,13 @@ class _AddphotoState extends State<Addphoto> {
     );
 
     if (result != null && result.files.single.path != null) {
+      final file = File(result.files.single.path!);
       setState(() {
-        _selectedImage = File(result.files.single.path!);
+        _selectedImage = file;
       });
+      if (mounted) {
+        context.read<AddRecipeCubit>().setSelectedImage(file);
+      }
 
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(

@@ -121,4 +121,15 @@ class ApiService {
       options: Options(headers: {'Content-Type': 'multipart/form-data'}),
     );
   }
+
+  Future<Response> postMultipart({
+    required String endpoint,
+    required FormData formData,
+  }) async {
+    return await _dio.post(
+      endpoint,
+      data: formData,
+      options: Options(headers: {'Content-Type': 'multipart/form-data'}),
+    );
+  }
 }

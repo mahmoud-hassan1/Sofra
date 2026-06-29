@@ -1,22 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sofra/core/utils/colors.dart';
 import 'package:sofra/core/utils/fonts.dart';
 import 'package:sofra/core/widgets/custom_text_form_field.dart';
 import 'package:sofra/core/widgets/custom_textarea.dart';
+import 'package:sofra/features/add%20recipe/cubit/add_recipe_cubit.dart';
 import 'package:sofra/features/add%20recipe/widgets/decorated_container.dart';
 
-class AddRecipeName extends StatefulWidget {
+class AddRecipeName extends StatelessWidget {
   const AddRecipeName({super.key});
 
   @override
-  _AddRecipeNameState createState() => _AddRecipeNameState();
-}
-
-class _AddRecipeNameState extends State<AddRecipeName> {
-  TextEditingController name = TextEditingController();
-  TextEditingController description = TextEditingController();
-  @override
   Widget build(BuildContext context) {
+    final cubit = context.read<AddRecipeCubit>();
     return DecoratedContainer(
       backgroundColor: AppColors.lightbrownContainerBackgroundColor,
       width: 354,
@@ -26,7 +22,7 @@ class _AddRecipeNameState extends State<AddRecipeName> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           CustomTextFormField(
-            controller: name,
+            controller: cubit.nameController,
             label: "RECIPE NAME",
             hintText: "e.g: Pepperoni Pizza",
             validator: (value) {
@@ -40,7 +36,7 @@ class _AddRecipeNameState extends State<AddRecipeName> {
           Text("DESCRIPTION", style: AppFonts.label),
           const SizedBox(height: 6.0),
           CustomTextArea(
-            controller: description,
+            controller: cubit.descriptionController,
             maxLines: 3,
             minLines: 2,
             hintText: "Tell us about your recipe",

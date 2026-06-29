@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 class RecipeOwnerEntity {
@@ -10,6 +9,36 @@ class RecipeOwnerEntity {
     required this.id,
     required this.displayName,
     this.avatarUrl,
+  });
+}
+
+class IngredientEntity {
+  final String name;
+  final String quantity;
+
+  const IngredientEntity({
+    required this.name,
+    required this.quantity,
+  });
+}
+
+class StepEntity {
+  final int order;
+  final String text;
+
+  const StepEntity({
+    required this.order,
+    required this.text,
+  });
+}
+
+class LocationEntity {
+  final double lat;
+  final double lng;
+
+  const LocationEntity({
+    required this.lat,
+    required this.lng,
   });
 }
 
@@ -27,6 +56,11 @@ class RecipeEntity {
   final RecipeOwnerEntity? owner;
   final List<String> tags;
   final Color bgColor;
+  
+  final String? youtubeUrl;
+  final List<IngredientEntity>? ingredients;
+  final List<StepEntity>? steps;
+  final LocationEntity? location;
 
   const RecipeEntity({
     required this.id,
@@ -42,6 +76,10 @@ class RecipeEntity {
     this.owner,
     required this.tags,
     required this.bgColor,
+    this.youtubeUrl,
+    this.ingredients,
+    this.steps,
+    this.location,
   });
 
   String get deliveryTime => '${cookingTimeMinutes}m';
@@ -60,6 +98,10 @@ class RecipeEntity {
     RecipeOwnerEntity? owner,
     List<String>? tags,
     Color? bgColor,
+    String? youtubeUrl,
+    List<IngredientEntity>? ingredients,
+    List<StepEntity>? steps,
+    LocationEntity? location,
   }) {
     return RecipeEntity(
       id: id ?? this.id,
@@ -75,6 +117,10 @@ class RecipeEntity {
       owner: owner ?? this.owner,
       tags: tags ?? this.tags,
       bgColor: bgColor ?? this.bgColor,
+      youtubeUrl: youtubeUrl ?? this.youtubeUrl,
+      ingredients: ingredients ?? this.ingredients,
+      steps: steps ?? this.steps,
+      location: location ?? this.location,
     );
   }
 }

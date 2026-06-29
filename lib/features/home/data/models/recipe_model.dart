@@ -11,7 +11,7 @@ class RecipeOwnerModel extends RecipeOwnerEntity {
 
   factory RecipeOwnerModel.fromJson(Map<String, dynamic> json) {
     return RecipeOwnerModel(
-      id: json['id'] as String? ?? '',
+      id: json['id'] as String? ?? json['_id'] as String? ?? '',
       displayName: json['displayName'] as String? ?? '',
       avatarUrl: json['avatarUrl'] as String?,
     );
@@ -22,6 +22,73 @@ class RecipeOwnerModel extends RecipeOwnerEntity {
       'id': id,
       'displayName': displayName,
       'avatarUrl': avatarUrl,
+    };
+  }
+}
+
+class IngredientModel extends IngredientEntity {
+  const IngredientModel({
+    required super.name,
+    required super.quantity,
+  });
+
+  factory IngredientModel.fromJson(Map<String, dynamic> json) {
+    return IngredientModel(
+      name: json['name'] as String? ?? '',
+      quantity: json['quantity'] as String? ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'name': name,
+      'quantity': quantity,
+    };
+  }
+}
+
+class StepModel extends StepEntity {
+  const StepModel({
+    required super.order,
+    required super.text,
+  });
+
+  factory StepModel.fromJson(Map<String, dynamic> json) {
+    return StepModel(
+      order: json['order'] as int? ?? 0,
+      text: json['text'] as String? ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'order': order,
+      'text': text,
+    };
+  }
+}
+
+class LocationModel extends LocationEntity {
+  const LocationModel({
+    required super.lat,
+    required super.lng,
+  });
+
+  factory LocationModel.fromJson(Map<String, dynamic> json) {
+    final coordinates = json['coordinates'] as List<dynamic>?;
+    if (coordinates != null && coordinates.length == 2) {
+      return LocationModel(
+        lat: (coordinates[1] as num).toDouble(),
+        lng: (coordinates[0] as num).toDouble(),
+      );
+    }
+    return const LocationModel(lat: 0, lng: 0);
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'type': 'Point',
+      'coordinates': [lng, lat],
     };
   }
 }
@@ -41,6 +108,10 @@ class RecipeModel extends RecipeEntity {
     super.owner,
     required super.tags,
     required super.bgColor,
+    super.youtubeUrl,
+    super.ingredients,
+    super.steps,
+    super.location,
   });
 
   factory RecipeModel.fromJson(Map<String, dynamic> json, {int index = 0}) {
@@ -63,7 +134,7 @@ class RecipeModel extends RecipeEntity {
     }
 
     return RecipeModel(
-      id: json['id'] as String? ?? '',
+      id: json['id'] as String? ?? json['_id'] as String? ?? '',
       title: title,
       description: json['description'] as String? ?? '',
       category: json['category'] as String? ?? '',
@@ -78,6 +149,16 @@ class RecipeModel extends RecipeEntity {
           : null,
       tags: tags,
       bgColor: bgColor,
+      youtubeUrl: json['youtubeUrl'] as String?,
+      ingredients: (json['ingredients'] as List<dynamic>?)
+          ?.map((e) => IngredientModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      steps: (json['steps'] as List<dynamic>?)
+          ?.map((e) => StepModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      location: json['location'] != null
+          ? LocationModel.fromJson(json['location'] as Map<String, dynamic>)
+          : null,
     );
   }
 
@@ -95,6 +176,10 @@ class RecipeModel extends RecipeEntity {
       'isSaved': isSaved,
       'owner': owner != null ? (owner as RecipeOwnerModel).toJson() : null,
       'tags': tags,
+      'youtubeUrl': youtubeUrl,
+      'ingredients': ingredients?.map((e) => (e as IngredientModel).toJson()).toList(),
+      'steps': steps?.map((e) => (e as StepModel).toJson()).toList(),
+      'location': location != null ? (location as LocationModel).toJson() : null,
     };
   }
 }
