@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sofra/core/services/service_locator.dart';
 import 'package:sofra/core/utils/colors.dart';
 import 'package:sofra/core/utils/fonts.dart';
 import 'package:sofra/features/favorite%20recipe/presentation/cubit/favorite_recipes_cubit.dart';
@@ -11,10 +10,10 @@ class ProfileFavoritesRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => sl<FavoriteRecipesCubit>()..loadSavedRecipes(),
-      child: const _FavoritesContent(),
-    );
+    // FavoriteRecipesCubit is provided by HomeLayout (shared with the
+    // Favorites tab). The HomeLayout listener reloads it when the user
+    // switches to the Profile tab, so this strip always shows fresh data.
+    return const _FavoritesContent();
   }
 }
 

@@ -1,10 +1,8 @@
 import 'package:sofra/features/home/domain/entities/recipe_entity.dart';
 
-class IngredientEntity {
-  final String name;
-  final String quantity;
-  const IngredientEntity({required this.name, required this.quantity});
-}
+// IngredientEntity is intentionally NOT re-declared here.
+// It is imported from the home layer (recipe_entity.dart) to avoid a
+// duplicate-symbol conflict with the home layer's own IngredientEntity class.
 
 class RecipeStepEntity {
   final int order;

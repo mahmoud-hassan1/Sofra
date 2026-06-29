@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sofra/core/services/service_locator.dart';
 import 'package:sofra/core/utils/colors.dart';
 import 'package:sofra/features/posts/presentation/cubit/posts_cubit.dart';
 import 'package:sofra/features/posts/presentation/widgets/empty_posts.dart';
@@ -14,12 +13,12 @@ class PostsScreenBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => sl<PostsCubit>()..loadMyRecipes(),
-      child: const _PostsContent(),
-    );
+    // PostsCubit is provided by HomeLayout so that its BlocConsumer listener
+    // can call loadMyRecipes() every time the user switches to this tab.
+    return const _PostsContent();
   }
 }
+
 
 class _PostsContent extends StatelessWidget {
   const _PostsContent();

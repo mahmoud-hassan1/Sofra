@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sofra/core/services/service_locator.dart';
 import 'package:sofra/core/utils/colors.dart';
-import 'package:sofra/features/add%20recipe/add_recipe.dart';
+import 'package:sofra/features/home/cubit/home_body_cubit.dart';
 import 'package:sofra/features/home/cubit/home_navigation_cubit.dart';
 import 'package:sofra/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:sofra/features/auth/presentation/screens/login_screen.dart';
@@ -21,6 +21,9 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => HomeNavigationCubit()),
+        // HomeBodyCubit is hoisted here so AddRecipeBody (a sibling in
+        // IndexedStack) can reach it and call loadRecipes() after success.
+        BlocProvider(create: (context) => sl<HomeBodyCubit>()..loadRecipes()),
         BlocProvider(create: (context) => sl<AuthCubit>()),
       ],
       child: MaterialApp(

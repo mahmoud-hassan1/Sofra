@@ -7,7 +7,7 @@ class ImageContiner extends StatelessWidget {
   final String imageUrl;
   final String region;
   final int likeCount;
-  
+
   const ImageContiner({
     super.key,
     required this.imageUrl,
@@ -24,12 +24,17 @@ class ImageContiner extends StatelessWidget {
       containerBody: Center(
         child: Stack(
           children: [
-            Image.network(
-              imageUrl,
-              height: 344,
-              width: 348,
-              fit: BoxFit.fill,
-            ),
+            // Guard against empty URL and add a fallback for network errors
+            imageUrl.isEmpty
+                ? _placeholder()
+                : Image.network(
+                    imageUrl,
+                    height: 344,
+                    width: 348,
+                    fit: BoxFit.fill,
+                    errorBuilder: (context, error, stackTrace) =>
+                        _placeholder(),
+                  ),
             Positioned(
               top: 10,
               left: 15,
@@ -43,8 +48,10 @@ class ImageContiner extends StatelessWidget {
               right: 15,
               child: CustomTagRow(
                 color: Colors.white,
-                label: likeCount > 1000 ? "${(likeCount/1000).toStringAsFixed(1)}K" : likeCount.toString(),
-                icon: Icon(Icons.favorite, color: Colors.red),
+                label: likeCount > 1000
+                    ? '${(likeCount / 1000).toStringAsFixed(1)}K'
+                    : likeCount.toString(),
+                icon: const Icon(Icons.favorite, color: Colors.red),
               ),
             ),
           ],
@@ -52,4 +59,15 @@ class ImageContiner extends StatelessWidget {
       ),
     );
   }
+
+  Widget _placeholder() => Container(
+        height: 344,
+        width: 348,
+        color: AppColors.tertiaryColor[200],
+        child: const Icon(
+          Icons.restaurant_rounded,
+          size: 64,
+          color: AppColors.primaryColor,
+        ),
+      );
 }

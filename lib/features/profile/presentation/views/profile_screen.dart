@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sofra/core/services/service_locator.dart';
 import 'package:sofra/core/utils/colors.dart';
 import 'package:sofra/core/utils/fonts.dart';
 import 'package:sofra/features/profile/data/models/profile_user_model.dart';
@@ -15,10 +14,9 @@ class ProfileScreenBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => sl<ProfileCubit>()..getProfile(),
-      child: const _ProfileContent(),
-    );
+    // ProfileCubit is provided by HomeLayout so the BlocConsumer listener
+    // there can call getProfile() every time the user switches to this tab.
+    return const _ProfileContent();
   }
 }
 

@@ -10,6 +10,8 @@ import 'package:sofra/features/add%20recipe/widgets/add_category.dart';
 import 'package:sofra/features/add%20recipe/widgets/add_recipe_name.dart';
 import 'package:sofra/features/add%20recipe/widgets/add_photo.dart';
 import 'package:sofra/features/add%20recipe/widgets/recipe_description.dart';
+import 'package:sofra/features/home/cubit/home_body_cubit.dart';
+import 'package:sofra/features/home/cubit/home_navigation_cubit.dart';
 
 class AddRecipeBody extends StatelessWidget {
   const AddRecipeBody({super.key});
@@ -60,6 +62,12 @@ class AddRecipeBody extends StatelessWidget {
                         backgroundColor: Colors.green,
                       ),
                     );
+                    // Switch to the Home tab and explicitly refresh the recipe
+                    // list. Because IndexedStack keeps HomeScreenBody alive,
+                    // switching tabs no longer auto-reloads — we must ask the
+                    // cubit directly.
+                    context.read<HomeBodyCubit>().loadRecipes();
+                    context.read<HomeNavigationCubit>().changeIndex(0);
                   } else if (state is AddRecipeError) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
