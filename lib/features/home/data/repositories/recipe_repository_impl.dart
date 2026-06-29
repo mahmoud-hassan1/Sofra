@@ -49,6 +49,30 @@ class RecipeRepositoryImpl implements RecipeRepository {
     Map<String, dynamic> data, {
     File? imageFile,
   }) async {
+    // STEP 1: Upload image to Cloudinary via the media endpoint (if provided)
+    String? uploadedImageUrl;
+    if (imageFile != null) {
+      final formData = FormData.fromMap({
+        'image': await MultipartFile.fromFile(
+          imageFile.path,
+          filename: imageFile.path.split('/').last,
+        ),
+      });
+      final uploadResponse = await apiService.postMultipart(
+        endpoint: 'media/recipe-image',
+        formData: formData,
+      );
+      final uploadData = uploadResponse.data is String
+          ? jsonDecode(uploadResponse.data as String) as Map<String, dynamic>
+          : uploadResponse.data as Map<String, dynamic>;
+
+      if (uploadData['success'] != true) {
+        throw Exception(uploadData['error']?['message'] ?? 'Image upload failed');
+      }
+      uploadedImageUrl = uploadData['data']['imageUrl'] as String?;
+    }
+
+    // STEP 2: Create the recipe, now including the Cloudinary URL if we got one
     final Map<String, dynamic> payload = {
       'name': data['name'],
       'description': data['description'],
@@ -59,11 +83,11 @@ class RecipeRepositoryImpl implements RecipeRepository {
       'ingredients': data['ingredients'],
       'steps': data['steps'],
       'location': data['location'],
+      'imageUrl': uploadedImageUrl,
+      if (data['youtubeUrl'] != null &&
+          (data['youtubeUrl'] as String).isNotEmpty)
+        'youtubeUrl': data['youtubeUrl'],
     };
-
-    if (data['youtubeUrl'] != null) {
-      payload['youtubeUrl'] = data['youtubeUrl'];
-    }
 
     final response = await apiService.post(endpoint: 'recipes', data: payload);
 

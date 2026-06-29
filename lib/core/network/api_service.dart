@@ -70,6 +70,12 @@ class ApiService {
     return response.data as Map<String, dynamic>;
   }
 
+  /// Returns the **full response envelope** `{ success, message, data: {...} }`.
+  ///
+  /// NOTE: This is intentionally different from [getRecipes] which unwraps the
+  /// envelope and returns only the `data` list. [RecipeDetailsModel.fromJson]
+  /// is designed to receive the full envelope and extracts `json['data']`
+  /// internally. Do not unwrap here without also updating the model.
   Future<Map<String, dynamic>> getRecipeDetails(String recipeId) async {
     final response = await _dio.get('recipes/$recipeId');
     return response.data as Map<String, dynamic>;

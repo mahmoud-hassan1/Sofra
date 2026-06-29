@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sofra/core/utils/colors.dart';
 import 'package:sofra/core/utils/fonts.dart';
 import 'package:sofra/core/widgets/custom_card.dart';
-import '../domain/entities/recipe_details_entity.dart';
+import 'package:sofra/features/home/domain/entities/recipe_entity.dart' show IngredientEntity;
 
 class IngredientsCard extends StatelessWidget {
   final List<IngredientEntity> ingredients;

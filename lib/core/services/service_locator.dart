@@ -8,6 +8,7 @@ import 'package:sofra/features/auth/domain/repositories/auth_repository_impl.dar
 import 'package:sofra/features/auth/presentation/cubit/auth_cubit.dart';
 
 // Home
+import 'package:sofra/features/home/cubit/home_body_cubit.dart';
 import 'package:sofra/features/home/data/repositories/recipe_repository_impl.dart';
 import 'package:sofra/features/home/domain/repositories/recipe_repository.dart';
 import 'package:sofra/features/home/domain/usecases/get_recipes_usecase.dart';
@@ -66,7 +67,13 @@ void initServiceLocator() {
   sl.registerLazySingleton(() => GetTopLikedRecipeUseCase(sl()));
   sl.registerLazySingleton(() => CreateRecipeUseCase(sl()));
 
-  // Add Recipe
+  // Add Recipe — HomeBodyCubit registered here so home_screen.dart
+  // can use sl<HomeBodyCubit>() without any inline instantiation.
+  sl.registerFactory(() => HomeBodyCubit(
+        getRecipesUseCase: sl(),
+        toggleSaveRecipeUseCase: sl(),
+      ));
+
   sl.registerFactory(() => AddRecipeCubit(sl()));
 
   // Recipe Details

@@ -1,13 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sofra/core/network/api_service.dart';
-import 'package:sofra/core/services/service_locator.dart';
 import 'package:sofra/core/utils/colors.dart';
 import 'package:sofra/core/utils/fonts.dart';
 import 'package:sofra/core/widgets/neo_button.dart';
-import 'package:sofra/features/home/data/repositories/recipe_repository_impl.dart';
-import 'package:sofra/features/home/domain/usecases/get_recipes_usecase.dart';
-import 'package:sofra/features/home/domain/usecases/toggle_save_recipe_usecase.dart';
 import 'package:sofra/features/home/cubit/home_body_cubit.dart';
 import 'package:sofra/features/home/widget/filter_row.dart';
 import 'package:sofra/features/home/widget/home_card.dart';
@@ -20,21 +15,12 @@ class HomeScreenBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) {
-        final apiService = sl<ApiService>();
-        final repository = RecipeRepositoryImpl(apiService: apiService);
-        final getRecipesUseCase = GetRecipesUseCase(repository);
-        final toggleSaveRecipeUseCase = ToggleSaveRecipeUseCase(repository);
-        return HomeBodyCubit(
-          getRecipesUseCase: getRecipesUseCase,
-          toggleSaveRecipeUseCase: toggleSaveRecipeUseCase,
-        )..loadRecipes();
-      },
-      child: const HomeScreenBodyContent(),
-    );
+    // HomeBodyCubit is provided at the app level (main.dart) so that
+    // AddRecipeBody can reach and refresh it after adding a recipe.
+    return const HomeScreenBodyContent();
   }
 }
+
 
 class HomeScreenBodyContent extends StatelessWidget {
   const HomeScreenBodyContent({super.key});

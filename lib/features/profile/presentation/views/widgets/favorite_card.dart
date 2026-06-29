@@ -5,6 +5,7 @@ import 'package:sofra/core/utils/colors.dart';
 import 'package:sofra/core/utils/fonts.dart';
 import 'package:sofra/core/widgets/neo_toggle_button.dart';
 import 'package:sofra/features/favorite%20recipe/presentation/cubit/favorite_recipes_cubit.dart';
+import 'package:sofra/features/home/cubit/home_navigation_cubit.dart';
 import 'package:sofra/features/home/domain/entities/recipe_entity.dart';
 import 'package:sofra/features/recipe%20details/recipe_details.dart';
 
@@ -17,7 +18,12 @@ class FavoriteCard extends StatelessWidget {
     return GestureDetector(
       onTap: () => Navigator.push(
         context,
-        MaterialPageRoute(builder: (_) => RecipeDetails(recipeId: recipe.id)),
+        MaterialPageRoute(
+          builder: (_) => BlocProvider.value(
+            value: context.read<HomeNavigationCubit>(),
+            child: RecipeDetails(recipeId: recipe.id),
+          ),
+        ),
       ),
       child: Container(
         width: 140,

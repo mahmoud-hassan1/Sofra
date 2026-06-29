@@ -124,13 +124,19 @@ class AddRecipeCubit extends Cubit<AddRecipeState> {
     youtubeUrlController.clear();
     regionController.clear();
     ingredientsController.clear();
-    for (var element in stepControllers) {
-      element.dispose();
+    // Only clear the text — do NOT dispose here. The widgets may still be
+    // mounted when _clearForm is called (the listener fires asynchronously).
+    // close() is responsible for the actual disposal.
+    for (var c in stepControllers) {
+      c.clear();
     }
-    stepControllers.clear();
-    stepControllers.add(TextEditingController(text: "Open bag."));
-    stepControllers.add(TextEditingController());
+    // Reset to the default two-step state
+    stepControllers
+      ..clear()
+      ..add(TextEditingController(text: 'Open bag.'))
+      ..add(TextEditingController());
   }
+
 
   @override
   Future<void> close() {

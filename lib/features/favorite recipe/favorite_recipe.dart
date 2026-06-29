@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sofra/core/services/service_locator.dart';
 import 'package:sofra/core/utils/colors.dart';
 import 'package:sofra/core/utils/fonts.dart';
 import 'package:sofra/core/widgets/custom_app_bar.dart';
@@ -9,6 +8,7 @@ import 'package:sofra/features/favorite%20recipe/widgets/custom_favorite_card.da
 import 'package:sofra/features/favorite%20recipe/widgets/header_text.dart';
 import 'package:sofra/features/favorite%20recipe/widgets/secondary_text.dart';
 import 'package:sofra/core/widgets/neo_button.dart';
+import 'package:sofra/features/home/cubit/home_navigation_cubit.dart';
 import 'package:sofra/features/recipe%20details/recipe_details.dart';
 
 class FavoriteRecipeBody extends StatelessWidget {
@@ -16,9 +16,10 @@ class FavoriteRecipeBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => sl<FavoriteRecipesCubit>()..loadSavedRecipes(),
-      child: Scaffold(
+    // FavoriteRecipesCubit is provided by HomeLayout so that its
+    // BlocConsumer listener can call loadSavedRecipes() every time
+    // the user switches to this tab.
+    return Scaffold(
         backgroundColor: AppColors.secondaryColor[50],
         appBar: CustomAppBar(
           leadingWidth: 200.0,
@@ -102,7 +103,12 @@ class FavoriteRecipeBody extends StatelessWidget {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => RecipeDetails(recipeId: recipe.id),
+                                  builder: (_) => BlocProvider.value(
+                                    value: context
+                                        .read<HomeNavigationCubit>(),
+                                    child:
+                                        RecipeDetails(recipeId: recipe.id),
+                                  ),
                                 ),
                               );
                             },
@@ -119,7 +125,6 @@ class FavoriteRecipeBody extends StatelessWidget {
             ),
           ),
         ),
-      ),
-    );
+      );
   }
 }
