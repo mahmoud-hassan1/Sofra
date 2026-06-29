@@ -101,9 +101,6 @@ class ProfileCard extends StatelessWidget {
   }
 }
 
-// ---------------------------------------------------------------------------
-// Edit pencil button — opens the edit dialog
-// ---------------------------------------------------------------------------
 class _EditButton extends StatelessWidget {
   final ProfileUserModel user;
   const _EditButton({required this.user});

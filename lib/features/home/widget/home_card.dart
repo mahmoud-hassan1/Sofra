@@ -110,6 +110,8 @@ class HomeCard extends StatelessWidget {
               fontSize: 24,
               fontWeight: FontWeight.w800,
             ),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
           ),
           const SizedBox(height: 6),
           Row(
@@ -118,11 +120,7 @@ class HomeCard extends StatelessWidget {
               Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  SvgPicture.asset(
-                    Assets.thumbsUpIcon,
-                    width: 32,
-                    height: 32,
-                  ),
+                  SvgPicture.asset(Assets.thumbsUpIcon, width: 32, height: 32),
                   const SizedBox(width: 8),
                   Text(
                     '$likesCount',
@@ -149,11 +147,7 @@ class HomeCard extends StatelessWidget {
               CustomTagRow(
                 label: deliveryTime,
                 isActive: false,
-                icon: SvgPicture.asset(
-                  Assets.clockIcon,
-                  width: 18,
-                  height: 18,
-                ),
+                icon: SvgPicture.asset(Assets.clockIcon, width: 18, height: 18),
               ),
               if (tags.isNotEmpty)
                 CustomTagRow(
@@ -166,10 +160,7 @@ class HomeCard extends StatelessWidget {
                   ),
                 ),
               if (tags.length > 1)
-                CustomTagRow(
-                  label: tags[1],
-                  isActive: false,
-                ),
+                CustomTagRow(label: tags[1], isActive: false),
             ],
           ),
         ],

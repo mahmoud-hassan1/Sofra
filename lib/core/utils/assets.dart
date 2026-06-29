@@ -26,5 +26,6 @@ class Assets {
   static const String facebook2 = "assets/icons/facebook-02 (1).s vg";
   static const String google2 = "assets/icons/google2.svg";
   static const String loginIcon = "assets/icons/login.svg";
+  static const String profileIcon = "assets/icons/profile.svg";
   static const String profileDefaultImg = 'assets/images/profile.png';
 }

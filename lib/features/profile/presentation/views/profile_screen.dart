@@ -22,9 +22,6 @@ class ProfileScreenBody extends StatelessWidget {
   }
 }
 
-// ---------------------------------------------------------------------------
-// Main scaffold — consumes the cubit and delegates to focused widgets
-// ---------------------------------------------------------------------------
 class _ProfileContent extends StatelessWidget {
   const _ProfileContent();
 
@@ -82,9 +79,6 @@ class _ProfileContent extends StatelessWidget {
   }
 }
 
-// ---------------------------------------------------------------------------
-// Scrollable body — composes the extracted widgets
-// ---------------------------------------------------------------------------
 class _ProfileBody extends StatelessWidget {
   final ProfileUserModel user;
   const _ProfileBody({required this.user});

@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:sofra/core/utils/assets.dart';
 import 'package:sofra/core/utils/colors.dart';
 
-/// Circular avatar widget. Falls back to [Assets.profileDefaultImg] when
-/// [avatarUrl] is null/empty or fails to load from network.
 class ProfileAvatar extends StatelessWidget {
   final String? avatarUrl;
   final double size;
@@ -51,9 +49,9 @@ class ProfileAvatar extends StatelessWidget {
   }
 
   Widget _defaultImage() => Image.asset(
-        Assets.profileDefaultImg,
-        width: size,
-        height: size,
-        fit: BoxFit.cover,
-      );
+    Assets.profileDefaultImg,
+    width: size,
+    height: size,
+    fit: BoxFit.cover,
+  );
 }

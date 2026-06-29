@@ -33,6 +33,12 @@ import 'package:sofra/features/profile/data/repositories/profiler_repo_impl.dart
 import 'package:sofra/features/profile/domain/repositories/profiler_repo.dart';
 import 'package:sofra/features/profile/presentation/controllers/cubit/profile_cubit.dart';
 
+// Posts
+import 'package:sofra/features/posts/data/data_sources/posts_remote_data_source.dart';
+import 'package:sofra/features/posts/data/repositories/posts_repository_impl.dart';
+import 'package:sofra/features/posts/domain/repositories/posts_repository.dart';
+import 'package:sofra/features/posts/presentation/cubit/posts_cubit.dart';
+
 final sl = GetIt.instance;
 
 void initServiceLocator() {
@@ -64,7 +70,10 @@ void initServiceLocator() {
   );
 
   // Favorite Recipes
-  sl.registerFactory(() => FavoriteRecipesCubit(getSavedRecipesUseCase: sl()));
+  sl.registerFactory(() => FavoriteRecipesCubit(
+        getSavedRecipesUseCase: sl(),
+        toggleSaveRecipeUseCase: sl(),
+      ));
   sl.registerLazySingleton(() => GetSavedRecipesUseCase(sl()));
   sl.registerLazySingleton<FavoriteRecipesRepository>(
     () => FavoriteRecipesRepositoryImpl(remoteDataSource: sl()),
@@ -77,5 +86,14 @@ void initServiceLocator() {
   sl.registerLazySingleton<ProfilerRepo>(() => ProfilerRepoImpl(sl()));
   sl.registerLazySingleton<ProfileRemoteDataSource>(
     () => ProfileRemoteDataSourceImpl(sl()),
+  );
+
+  // Posts
+  sl.registerFactory(() => PostsCubit(sl()));
+  sl.registerLazySingleton<PostsRepository>(
+    () => PostsRepositoryImpl(sl()),
+  );
+  sl.registerLazySingleton<PostsRemoteDataSource>(
+    () => PostsRemoteDataSourceImpl(sl()),
   );
 }

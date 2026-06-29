@@ -9,10 +9,6 @@ import 'package:sofra/features/profile/data/models/profile_user_model.dart';
 import 'package:sofra/features/profile/presentation/controllers/cubit/profile_cubit.dart';
 import 'package:sofra/features/profile/presentation/views/widgets/profile_avatar.dart';
 
-/// Dialog-style card matching the mockup:
-///   - Pink header row: "EDIT PROFILE" + ✕ close button
-///   - White body: centered avatar with "CHANGE AVATAR" tap, name field, bio field
-///   - Pink footer: full-width "SAVE CHANGES" button (primary red)
 class EditProfileDialog extends StatefulWidget {
   final ProfileUserModel user;
   const EditProfileDialog({super.key, required this.user});
@@ -99,14 +95,12 @@ class _EditProfileDialogState extends State<EditProfileDialog> {
                 ),
               ),
             ),
-            // Camera option
             _SourceTile(
               icon: Icons.camera_alt_outlined,
               label: 'Take a Photo',
               onTap: () => Navigator.of(ctx).pop(ImageSource.camera),
             ),
             const Divider(height: 1, indent: 16, endIndent: 16),
-            // Gallery option
             _SourceTile(
               icon: Icons.photo_library_outlined,
               label: 'Choose from Gallery',
@@ -167,10 +161,8 @@ class _EditProfileDialogState extends State<EditProfileDialog> {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              // ── Pink header ─────────────────────────────────────────────
               _DialogHeader(onClose: () => Navigator.of(context).pop()),
 
-              // ── White body ──────────────────────────────────────────────
               Padding(
                 padding: const EdgeInsets.symmetric(
                   horizontal: 20,
@@ -179,7 +171,6 @@ class _EditProfileDialogState extends State<EditProfileDialog> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    // Centered avatar
                     _AvatarSection(
                       pickedImage: _pickedImage,
                       avatarUrl: widget.user.avatarUrl,
@@ -187,7 +178,6 @@ class _EditProfileDialogState extends State<EditProfileDialog> {
                     ),
                     const SizedBox(height: 24),
 
-                    // Display name field
                     _FieldLabel(label: 'DISPLAY NAME'),
                     const SizedBox(height: 6),
                     _ProfileTextField(
@@ -204,7 +194,6 @@ class _EditProfileDialogState extends State<EditProfileDialog> {
                     ),
                     const SizedBox(height: 16),
 
-                    // Bio field
                     _FieldLabel(label: 'BIO'),
                     const SizedBox(height: 6),
                     _ProfileTextField(
@@ -216,7 +205,6 @@ class _EditProfileDialogState extends State<EditProfileDialog> {
                 ),
               ),
 
-              // ── Pink footer with save button ────────────────────────────
               _DialogFooter(onSave: () => _save(context)),
             ],
           ),
@@ -226,9 +214,6 @@ class _EditProfileDialogState extends State<EditProfileDialog> {
   }
 }
 
-// ---------------------------------------------------------------------------
-// Pink header: "EDIT PROFILE" + ✕
-// ---------------------------------------------------------------------------
 class _DialogHeader extends StatelessWidget {
   final VoidCallback onClose;
   const _DialogHeader({required this.onClose});
@@ -272,9 +257,6 @@ class _DialogHeader extends StatelessWidget {
   }
 }
 
-// ---------------------------------------------------------------------------
-// Centered avatar + "CHANGE AVATAR" label
-// ---------------------------------------------------------------------------
 class _AvatarSection extends StatelessWidget {
   final File? pickedImage;
   final String? avatarUrl;
@@ -292,7 +274,6 @@ class _AvatarSection extends StatelessWidget {
       onTap: onTap,
       child: Column(
         children: [
-          // Avatar image (picked → network → asset fallback)
           if (pickedImage != null)
             _PickedAvatar(file: pickedImage!)
           else
@@ -355,9 +336,6 @@ class _FieldLabel extends StatelessWidget {
   }
 }
 
-// ---------------------------------------------------------------------------
-// Text input field (matches the clean style in the mockup)
-// ---------------------------------------------------------------------------
 class _ProfileTextField extends StatelessWidget {
   final TextEditingController controller;
   final String hintText;
@@ -426,9 +404,6 @@ class _ProfileTextField extends StatelessWidget {
   }
 }
 
-// ---------------------------------------------------------------------------
-// Pink footer with full-width red "SAVE CHANGES" button
-// ---------------------------------------------------------------------------
 class _DialogFooter extends StatelessWidget {
   final VoidCallback onSave;
   const _DialogFooter({required this.onSave});
@@ -491,9 +466,6 @@ class _DialogFooter extends StatelessWidget {
   }
 }
 
-// ---------------------------------------------------------------------------
-// Reusable tile for the source picker bottom sheet
-// ---------------------------------------------------------------------------
 class _SourceTile extends StatelessWidget {
   final IconData icon;
   final String label;
