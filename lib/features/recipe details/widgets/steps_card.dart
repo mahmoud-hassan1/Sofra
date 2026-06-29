@@ -12,7 +12,6 @@ class StepsCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomCard(
-      height: 100.0 + (steps.length * 130.0),
       width: 354,
       bgColor: AppColors.backGroundSecondColor,
       containerBody: Column(
@@ -40,7 +39,6 @@ class StepsCard extends StatelessWidget {
   CustomCard stepsBuilder({required RecipeStepEntity step}) {
     return CustomCard(
       shadow: 3,
-      height: 104,
       width: 316,
       bgColor: AppColors.backGroundColor,
       containerBody: Row(

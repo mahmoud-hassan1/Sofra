@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sofra/core/utils/colors.dart';
 import 'package:sofra/core/utils/fonts.dart';
 import 'package:sofra/features/add%20recipe/cubit/add_recipe_cubit.dart';
+import 'package:sofra/features/add%20recipe/cubit/add_recipe_state.dart';
 import 'package:sofra/features/add%20recipe/widgets/decorated_container.dart';
 
 class Addphoto extends StatefulWidget {
@@ -53,9 +54,17 @@ class _AddphotoState extends State<Addphoto> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: GestureDetector(
+    return BlocListener<AddRecipeCubit, AddRecipeState>(
+      listener: (context, state) {
+        if (state is AddRecipeSuccess) {
+          setState(() {
+            _selectedImage = null;
+          });
+        }
+      },
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: GestureDetector(
         onTap: _pickAndValidateImage,
         child: _selectedImage == null
             ? DecoratedContainer(
@@ -117,6 +126,7 @@ class _AddphotoState extends State<Addphoto> {
                   width: double.infinity,
                   height: 200,
                 ),
+              ),
               ),
       ),
     );

@@ -20,7 +20,7 @@ class ImageContiner extends StatelessWidget {
     return CustomCard(
       height: 350,
       width: 354,
-      bgColor: AppColors.tertiaryColor,
+      bgColor: AppColors.primaryColor.shade400,
       containerBody: Center(
         child: Stack(
           children: [
@@ -38,10 +38,7 @@ class ImageContiner extends StatelessWidget {
             Positioned(
               top: 10,
               left: 15,
-              child: CustomTagRow(
-                label: region,
-                color: Colors.white,
-              ),
+              child: CustomTagRow(label: region, color: Colors.white),
             ),
             Positioned(
               top: 10,
@@ -61,13 +58,13 @@ class ImageContiner extends StatelessWidget {
   }
 
   Widget _placeholder() => Container(
-        height: 344,
-        width: 348,
-        color: AppColors.tertiaryColor[200],
-        child: const Icon(
-          Icons.restaurant_rounded,
-          size: 64,
-          color: AppColors.primaryColor,
-        ),
-      );
+    height: 344,
+    width: 348,
+    color: AppColors.tertiaryColor[200],
+    child: const Icon(
+      Icons.restaurant_rounded,
+      size: 64,
+      color: AppColors.primaryColor,
+    ),
+  );
 }
