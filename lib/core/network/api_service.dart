@@ -12,7 +12,7 @@ class ApiService {
         connectTimeout: const Duration(seconds: 10),
         receiveTimeout: const Duration(seconds: 10),
         validateStatus: (status) {
-          return status != null && status < 500; 
+          return status != null && status < 500;
         },
       ),
     );
@@ -37,7 +37,6 @@ class ApiService {
     _dio.options.headers.remove('Authorization');
   }
 
-
   Future<List<dynamic>> getRecipes({
     String? search,
     String? region,
@@ -54,7 +53,10 @@ class ApiService {
       queryParameters['category'] = category;
     }
 
-    final response = await _dio.get('recipes', queryParameters: queryParameters);
+    final response = await _dio.get(
+      'recipes',
+      queryParameters: queryParameters,
+    );
     return response.data['data'] as List<dynamic>;
   }
 
@@ -82,6 +84,36 @@ class ApiService {
       endpoint,
       data: data,
       queryParameters: queryParameters,
+    );
+  }
+
+  Future<Response> get({
+    required String endpoint,
+    Map<String, dynamic>? queryParameters,
+  }) async {
+    return await _dio.get(endpoint, queryParameters: queryParameters);
+  }
+
+  Future<Response> patch({
+    required String endpoint,
+    dynamic data,
+    Map<String, dynamic>? queryParameters,
+  }) async {
+    return await _dio.patch(
+      endpoint,
+      data: data,
+      queryParameters: queryParameters,
+    );
+  }
+
+  Future<Response> patchMultipart({
+    required String endpoint,
+    required FormData formData,
+  }) async {
+    return await _dio.patch(
+      endpoint,
+      data: formData,
+      options: Options(headers: {'Content-Type': 'multipart/form-data'}),
     );
   }
 }
