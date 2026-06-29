@@ -48,52 +48,29 @@ class RecipeRepositoryImpl implements RecipeRepository {
     Map<String, dynamic> data, {
     File? imageFile,
   }) async {
-    dynamic payload = data;
+    final Map<String, dynamic> payload = {
+      'name': data['name'],
+      'description': data['description'],
+      'category': data['category'],
+      'kitchenType': data['kitchenType'],
+      'cookingTimeMinutes': data['cookingTimeMinutes'],
+      'region': data['region'],
+      'ingredients': data['ingredients'],
+      'steps': data['steps'],
+    };
 
-    if (imageFile != null) {
-      final Map<String, dynamic> formDataMap = {};
-      data.forEach((key, value) {
-        if (value is List || value is Map) {
-          formDataMap[key] = jsonEncode(value);
-        } else {
-          formDataMap[key] = value;
-        }
-      });
-      final formData = FormData.fromMap(formDataMap);
-      final fileName = imageFile.path.split('/').last;
+    if (data['youtubeUrl'] != null) {
+      payload['youtubeUrl'] = data['youtubeUrl'];
+    }
 
-      formData.files.add(
-        MapEntry(
-          'image',
-          await MultipartFile.fromFile(imageFile.path, filename: fileName),
-        ),
-      );
+    final response = await apiService.post(endpoint: 'recipes', data: payload);
 
-      final response = await apiService.postMultipart(
-        endpoint: 'recipes',
-        formData: formData,
-      );
-      if (response.data['success'] == false) {
-        throw Exception(
-          response.data['error']?['message'] ?? 'Failed to create recipe',
-        );
-      }
-      return RecipeModel.fromJson(
-        response.data['data'] as Map<String, dynamic>,
-      );
-    } else {
-      final response = await apiService.post(
-        endpoint: 'recipes',
-        data: payload,
-      );
-      if (response.data['success'] == false) {
-        throw Exception(
-          response.data['error']?['message'] ?? 'Failed to create recipe',
-        );
-      }
-      return RecipeModel.fromJson(
-        response.data['data'] as Map<String, dynamic>,
+    if (response.data['success'] == false) {
+      throw Exception(
+        response.data['error']?['message'] ?? 'Failed to create recipe',
       );
     }
+
+    return RecipeModel.fromJson(response.data['data'] as Map<String, dynamic>);
   }
 }
