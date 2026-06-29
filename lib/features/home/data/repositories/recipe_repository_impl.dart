@@ -27,4 +27,11 @@ class RecipeRepositoryImpl implements RecipeRepository {
     final response = await apiService.toggleSaveRecipe(recipeId);
     return response['data']['isSaved'] as bool;
   }
+
+  @override
+  Future<RecipeEntity?> getTopLikedRecipe() async {
+    final List<dynamic> data = await apiService.getTopLikedRecipes(limit: 1);
+    if (data.isEmpty) return null;
+    return RecipeModel.fromJson(data[0] as Map<String, dynamic>);
+  }
 }
