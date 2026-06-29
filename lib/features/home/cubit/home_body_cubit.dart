@@ -53,16 +53,20 @@ class HomeBodyCubit extends Cubit<HomeBodyState> {
         search: state.searchQuery,
         region: state.selectedRegion,
       );
-      emit(state.copyWith(
-        status: HomeBodyStatus.success,
-        recipes: recipes,
-        errorMessage: null,
-      ));
+      emit(
+        state.copyWith(
+          status: HomeBodyStatus.success,
+          recipes: recipes,
+          errorMessage: null,
+        ),
+      );
     } catch (e) {
-      emit(state.copyWith(
-        status: HomeBodyStatus.failure,
-        errorMessage: e.toString(),
-      ));
+      emit(
+        state.copyWith(
+          status: HomeBodyStatus.failure,
+          errorMessage: e.toString(),
+        ),
+      );
     }
   }
 
@@ -86,8 +90,8 @@ class HomeBodyCubit extends Cubit<HomeBodyState> {
     final updatedRecipes = List<RecipeEntity>.from(state.recipes);
 
     final bool newIsSaved = !originalRecipe.isSaved;
-    final int newLikeCount = newIsSaved 
-        ? originalRecipe.likeCount + 1 
+    final int newLikeCount = newIsSaved
+        ? originalRecipe.likeCount + 1
         : (originalRecipe.likeCount - 1).clamp(0, 999999);
 
     updatedRecipes[index] = originalRecipe.copyWith(
@@ -121,10 +125,7 @@ class HomeBodyCubit extends Cubit<HomeBodyState> {
   }
 
   void clearFilters() {
-    emit(state.copyWith(
-      searchQuery: '',
-      selectedRegion: 'All',
-    ));
+    emit(state.copyWith(searchQuery: '', selectedRegion: 'All'));
     loadRecipes();
   }
 }

@@ -7,7 +7,7 @@ import 'package:sofra/features/favorite%20recipe/favorite_recipe.dart';
 import 'package:sofra/features/home/cubit/home_navigation_cubit.dart';
 import 'package:sofra/features/home/home_screen.dart';
 import 'package:sofra/features/posts/posts_screen.dart';
-import 'package:sofra/features/profile/profile_screen.dart';
+import 'package:sofra/features/profile/presentation/views/profile_screen.dart';
 
 class HomeLayout extends StatelessWidget {
   const HomeLayout({super.key});
