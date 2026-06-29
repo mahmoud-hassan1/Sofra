@@ -71,4 +71,9 @@ class AppColors {
   static const Color lightBrownAppBarBackground = Color(0xFFFFD1BA);
   static const Color darkAppBarTextColor = Color(0xFF7A5846);
   static const Color greenAvatarBackgroundColor = Color(0xFF49654C);
+  static const Color lightbrownContainerBackgroundColor = Color(0xFFFFDBCA);
+  static const Color lightScaffoldAddRecipeBackgroundColor = Color(0xFFFDF8E1);
+  static const Color categoryBackgroundContainerAddRecipePage = Color(
+    0xFFCBEBCA,
+  );
 }
