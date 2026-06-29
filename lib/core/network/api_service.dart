@@ -58,6 +58,11 @@ class ApiService {
     return response.data['data'] as List<dynamic>;
   }
 
+  Future<List<dynamic>> getTopLikedRecipes({int limit = 1}) async {
+    final response = await _dio.get('recipes/top-liked', queryParameters: {'limit': limit});
+    return response.data['data'] as List<dynamic>;
+  }
+
   Future<Map<String, dynamic>> toggleSaveRecipe(String recipeId) async {
     final response = await _dio.post('recipes/$recipeId/save');
     return response.data as Map<String, dynamic>;
