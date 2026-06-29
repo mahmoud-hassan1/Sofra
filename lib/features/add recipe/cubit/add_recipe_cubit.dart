@@ -97,6 +97,7 @@ class AddRecipeCubit extends Cubit<AddRecipeState> {
         'region': regionController.text.trim(),
         'ingredients': ingredients,
         'steps': steps,
+        'location': {'lat': 30.0444, 'lng': 31.2357},
       };
 
       final youtube = youtubeUrlController.text.trim();

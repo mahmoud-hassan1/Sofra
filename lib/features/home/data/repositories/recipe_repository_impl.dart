@@ -44,6 +44,7 @@ class RecipeRepositoryImpl implements RecipeRepository {
     return RecipeModel.fromJson(data[0] as Map<String, dynamic>);
   }
 
+  @override
   Future<RecipeEntity> createRecipe(
     Map<String, dynamic> data, {
     File? imageFile,
@@ -57,6 +58,7 @@ class RecipeRepositoryImpl implements RecipeRepository {
       'region': data['region'],
       'ingredients': data['ingredients'],
       'steps': data['steps'],
+      'location': data['location'],
     };
 
     if (data['youtubeUrl'] != null) {
@@ -65,12 +67,22 @@ class RecipeRepositoryImpl implements RecipeRepository {
 
     final response = await apiService.post(endpoint: 'recipes', data: payload);
 
-    if (response.data['success'] == false) {
+    // Dio sometimes returns the body as a String if responseType isn't set
+    final responseData = response.data is String
+        ? jsonDecode(response.data as String) as Map<String, dynamic>
+        : response.data as Map<String, dynamic>;
+
+    if (responseData['success'] == false) {
       throw Exception(
-        response.data['error']?['message'] ?? 'Failed to create recipe',
+        responseData['error']?['message'] ?? 'Failed to create recipe',
       );
     }
 
-    return RecipeModel.fromJson(response.data['data'] as Map<String, dynamic>);
+    final recipeData = responseData['data'];
+    if (recipeData == null) {
+      throw Exception('No data returned from server');
+    }
+
+    return RecipeModel.fromJson(recipeData as Map<String, dynamic>);
   }
 }
